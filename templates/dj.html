@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ Management Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+        .played-btn {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .played-btn:hover {
+            background-color: darkgreen;
+        }
+        .played {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DJ Management Page</h1>
+        <h2>Requests</h2>
+        <ul>
+            {% for request in song_requests %}
+                <li class="{{ 'played' if request.played else '' }}">
+                    {{ request.song }} by {{ request.requester }}
+                    <form action="/dj/played" method="post" style="display:inline;">
+                        <input type="hidden" name="song_name" value="{{ request.song }}">
+                        <button type="submit" class="played-btn">Played</button>
+                    </form>
+                    <form action="/dj/delete" method="post" style="display:inline;">
+                        <input type="hidden" name="song_name" value="{{ request.song }}">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="button-container">
+            <a href="/" class="button button-primary">Back to Main Page</a>
+        </div>
+    </div>
+</body>
+</html>
